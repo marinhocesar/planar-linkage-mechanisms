@@ -1,15 +1,17 @@
 # this program aims to calculate all the possible permutations of a
 # linkage mechanism with one degree of freedom composed of N rigid bodies.
 import itertools
+from file_handling import *
 
-f = open("cadeiasImpostas.txt", "w")
+filename = "topologies.txt"
 
-for n_bars in range(6,26 + 1, 2):
+
+for n_bars in range(6,10 + 1, 2):
     N = n_bars; # number of rigid bodies. must be even and greater than 6 (max 26)
-    f.write('____________________________________________N = ')
-    f.write(str(N))
-    f.write(' bars____________________________________________')
-    f.write('\n')
+    write_in_file(filename, '____________________________________________N = ')
+    append_to_file(filename, str(N))
+    append_to_file(filename, ' bars____________________________________________')
+    append_to_file(filename, '\n')
     k_max = round(N/2); # the maximum number of edges that a bar can have to be a viable linkage system with one degree of freedom
 
     max_bars= [0*a for a in range(1,k_max)] # this list is used to store the maximum amount of bars of the same type that could still form a viable linkage mechanism with one degree of freedom
@@ -19,10 +21,10 @@ for n_bars in range(6,26 + 1, 2):
         while ((N - 4) - (bar - 2)*count) >= 0: 
             count += 1
         max_bars[bar - 2] = count - 1 # the nbar ocuppies the [bar - 2] index in the array, since it is: [n2, n3, n4, ..., nkmax]
-    f.write("   ")
-    f.write('[')
-    f.write(','.join(['n' + str(value) for value in range(2,k_max + 1)])) # prints out on the console the order in which the amount of each bar will appear in the lists
-    f.write(']')
+    append_to_file(filename, "   ")
+    append_to_file(filename, '[')
+    append_to_file(filename, ','.join(['n' + str(value) for value in range(2,k_max + 1)])) # prints out on the console the order in which the amount of each bar will appear in the lists
+    append_to_file(filename, ']')
     possible_permut = []
     # opens the amount of bars to all possibilities, ranging from 0 to the maximum that was previously calculated
     for index in range(4, k_max + 1):
@@ -46,20 +48,20 @@ for n_bars in range(6,26 + 1, 2):
             linkage_mech.append(possible_mech)
             count += 1
             possible_mech = [str(possible_mech[a]) for a in range(0,len(possible_mech))]
-            f.write('\n')
-            f.write(str(count))
-            f.write('->')
-            f.write('[')
-            f.write(', '.join(possible_mech))
-            f.write(']')
+            append_to_file(filename, '\n')
+            append_to_file(filename, str(count))
+            append_to_file(filename, '->')
+            append_to_file(filename, '[')
+            append_to_file(filename, ', '.join(possible_mech))
+            append_to_file(filename, ']')
 
-    f.write('\n')
+    append_to_file(filename, '\n')
     text = 'There are a total of ', str(len(linkage_mech)), ' possible configurations for a linkage mechanism with one degree of freedom composed of ', str(N), ' rigid bodies.'
-    f.write(str("".join(text)))
-    f.write('\n')
-    f.write('___________________________________________________________________________________________________')
-    f.write('\n')
-    f.write('\n')
+    append_to_file(filename, str("".join(text)))
+    append_to_file(filename, '\n')
+    append_to_file(filename, '___________________________________________________________________________________________________')
+    append_to_file(filename, '\n')
+    append_to_file(filename, '\n')
    
 
 print("DONE!")
